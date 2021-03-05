@@ -12,7 +12,6 @@ public class GameThread extends Thread {
     private Canvas canvas;
     private boolean running;
 
-    int sensi = 0;
     public void setRunning(boolean running) {
         this.running = running;
     }
