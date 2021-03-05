@@ -12,8 +12,6 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.Toast;
-
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -21,10 +19,10 @@ import android.widget.TextView;
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor light;
-    private Sensor accelerometer;
+    private Sensor gameRotationVector;
     private GameView gameView;
     private double sensitivity;
-  
+
     private float lightValue;
 
     private LinearLayout buttonsLayout;
@@ -33,9 +31,6 @@ public class MainActivity extends Activity implements SensorEventListener {
     private ImageButton sensitivityMoinsButton;
     private TextView sensitivityInfo;
 
-    public float getLightValue() {
-        return lightValue;
-    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sensitivity = 1.0;
@@ -92,26 +87,34 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
-        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
         sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_FASTEST);
+        gameRotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        sensorManager.registerListener(this, gameRotationVector, SensorManager.SENSOR_DELAY_GAME);
 
     }
 
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        float x = sensorEvent.values[1];
-        float y = sensorEvent.values[0];
-        float z = sensorEvent.values[2];
-        Point point = gameView.getCirclePosition();
-        point.x += x * 150 * sensitivity;
-        point.y += y * 150 * sensitivity;
-        gameView.setCirclePosition(point);
+        if (sensorEvent.sensor.equals(light)) {
+            lightValue = sensorEvent.values[0];
+        } else if (sensorEvent.sensor.equals(gameRotationVector)) {
+            float x = sensorEvent.values[1];
+            float y = sensorEvent.values[0];
+            float z = sensorEvent.values[2];
+            Point point = gameView.getCirclePosition();
+            point.x += x * 150 * sensitivity;
+            point.y += y * 150 * sensitivity;
+            gameView.setCirclePosition(point);
+        }
     }
 
     @Override
     public void onAccuracyChanged(Sensor sensor, int i) {
+    }
+
+    public void majsensitivityInfo() {
+        sensitivityInfo.setText(String.valueOf(sensitivity));
     }
 
     public double getsensitivity() {
@@ -122,9 +125,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         this.sensitivity = sensitivity;
     }
 
-    public void majsensitivityInfo() {
-        sensitivityInfo.setText(String.valueOf(sensitivity));
+    public float getLightValue() {
+        return lightValue;
     }
-
-
 }

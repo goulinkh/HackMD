@@ -13,13 +13,9 @@ import android.view.SurfaceView;
 import androidx.annotation.NonNull;
 import androidx.core.graphics.ColorUtils;
 
-import java.util.List;
-
 public class GameView extends SurfaceView implements SurfaceHolder.Callback {
     private GameThread thread;
-    private int x = 0;
     private MainActivity context;
-    private List<Point> rectangles;
     private Point circlePosition;
     private int contextHeight;
     private int contextWidth;
@@ -34,8 +30,8 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.sharedPref = context.getPreferences(Context.MODE_PRIVATE);
         DisplayMetrics displayMetrics = new DisplayMetrics();
         context.getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
-        int contextHeight = displayMetrics.heightPixels;
-        int contextWidth = displayMetrics.widthPixels;
+        contextHeight = displayMetrics.heightPixels;
+        contextWidth = displayMetrics.widthPixels;
         circlePosition = new Point(contextWidth / 2, contextHeight / 2);
 
 
@@ -79,13 +75,13 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             float maxLight = 1200;
 
 
-            float hue = (lightValue/maxLight)*359.f;
+            float hue = (lightValue / maxLight) * 359.f;
             int rgb = ColorUtils.HSLToColor(new float[]{hue, 1f, .6f});
             int red = Color.red(rgb);
             int green = Color.green(rgb);
             int blue = Color.blue(rgb);
             paint.setColor(Color.rgb(red, green, blue));
-            canvas.drawCircle(circlePosition.x,circlePosition.y,100,paint);
+            canvas.drawCircle(circlePosition.x, circlePosition.y, 100, paint);
         }
     }
 
