@@ -11,6 +11,7 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 import androidx.annotation.NonNull;
+import androidx.core.graphics.ColorUtils;
 
 import java.util.List;
 
@@ -72,8 +73,19 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         if (canvas != null) {
             canvas.drawColor(Color.WHITE);
             Paint paint = new Paint();
-            paint.setColor(Color.rgb(250, 0, 0));
-            canvas.drawCircle(circlePosition.x, circlePosition.y, 100, paint);
+
+
+            float lightValue = context.getLightValue();
+            float maxLight = 1200;
+
+
+            float hue = (lightValue/maxLight)*359.f;
+            int rgb = ColorUtils.HSLToColor(new float[]{hue, 1f, .6f});
+            int red = Color.red(rgb);
+            int green = Color.green(rgb);
+            int blue = Color.blue(rgb);
+            paint.setColor(Color.rgb(red, green, blue));
+            canvas.drawCircle(circlePosition.x,circlePosition.y,100,paint);
         }
     }
 

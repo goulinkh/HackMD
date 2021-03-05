@@ -12,15 +12,20 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
+
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
+    private Sensor light;
     private Sensor accelerometer;
     private GameView gameView;
     private double sensitivity;
+  
+    private float lightValue;
 
     private LinearLayout buttonsLayout;
     private LinearLayout gameLayout;
@@ -28,6 +33,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private ImageButton sensitivityMoinsButton;
     private TextView sensitivityInfo;
 
+    public float getLightValue() {
+        return lightValue;
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         sensitivity = 1.0;
@@ -49,6 +57,7 @@ public class MainActivity extends Activity implements SensorEventListener {
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
 
         //récupération des elements de la vue
@@ -83,9 +92,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
         accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
         sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
-
+        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_FASTEST);
 
     }
 
