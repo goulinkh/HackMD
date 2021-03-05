@@ -5,11 +5,25 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.Toast;
 
 public class MainActivity extends Activity {
+    private SensorManager sm;
+    private SensorEventListener listener;
+    private Sensor light;
+
+    public float getLightValue() {
+        return lightValue;
+    }
+
+    private float lightValue;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
@@ -30,5 +44,27 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(new GameView(this));
+        sm = (SensorManager) getSystemService(SENSOR_SERVICE);
+        light = sm.getDefaultSensor(Sensor.TYPE_LIGHT);
+
+        listener = new SensorEventListener() {
+
+            @Override
+            public void onAccuracyChanged(Sensor sensor, int accuracy) {
+                //Implementation obligée, même si pas utilisée
+            }
+
+            @Override
+            public void onSensorChanged(SensorEvent event) {
+                lightValue = event.values[0];
+            }
+        };
+
+        sm.registerListener(listener, light, SensorManager.SENSOR_DELAY_FASTEST);
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sm.unregisterListener(listener, light);
     }
 }
