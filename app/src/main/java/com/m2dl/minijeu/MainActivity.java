@@ -10,16 +10,22 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 public class MainActivity extends Activity {
     private LinearLayout buttonsLayout;
     private LinearLayout gameLayout;
+    private ImageButton sensibilityPlusButton;
+    private ImageButton sensibilityMoinsButton;
+    private TextView sensibilityInfo;
+    private int sensibility;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
+        sensibility=0;
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         int valeur_y = sharedPref.getInt("valeur_y", 0);
@@ -38,14 +44,50 @@ public class MainActivity extends Activity {
         this.requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        start();
-    }
 
-    //Ce code est séparé car il est impossible de manipuler le contunu de la View dans le onCreate
-    private void start(){
+        //récupération des elements de la vue
         buttonsLayout=findViewById(R.id.linearLayout_buttons);
         gameLayout=findViewById(R.id.linearLayout_game);
+        sensibilityMoinsButton=findViewById(R.id.imageButton_reduceSensibility);
+        sensibilityPlusButton=findViewById(R.id.imageButton_increaseSensibility);
+        sensibilityInfo=findViewById(R.id.textView_sensibility);
+
         GameView myGameView=new GameView(this);
         gameLayout.addView(myGameView);
+        majSensibilityInfo();
+
+        //gestion des evenements
+        sensibilityPlusButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(sensibility<5){
+                    sensibility+=1;
+                    majSensibilityInfo();
+                }
+            }
+        });
+        sensibilityMoinsButton.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                if(sensibility>0){
+                    sensibility-=1;
+                    majSensibilityInfo();
+                }
+            }
+        });
+
+
     }
+
+    public int getSensibility() {
+        return sensibility;
+    }
+
+    public void setSensibility(int sensibility) {
+        this.sensibility = sensibility;
+    }
+
+    public void majSensibilityInfo(){
+        sensibilityInfo.setText(String.valueOf(sensibility));
+    }
+
+
 }
