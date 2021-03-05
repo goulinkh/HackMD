@@ -3,6 +3,11 @@ package com.m2dl.minijeu;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
@@ -11,18 +16,22 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class MainActivity extends Activity implements SensorEventListener {
+    private SensorManager sensorManager;
+    private Sensor accelerometer;
+    private GameView gameView;
+    private double sensitivity;
+  
     private LinearLayout buttonsLayout;
     private LinearLayout gameLayout;
     private ImageButton sensitivityPlusButton;
     private ImageButton sensitivityMoinsButton;
     private TextView sensitivityInfo;
-    private int sensitivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
-        sensitivity=0;
+        sensitivity=1.0;
+      
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         int valeur_y = sharedPref.getInt("valeur_y", 0);
@@ -43,14 +52,15 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
 
         //récupération des elements de la vue
+        gameView = new GameView(this);
+      
         buttonsLayout=findViewById(R.id.linearLayout_buttons);
         gameLayout=findViewById(R.id.linearLayout_game);
         sensitivityMoinsButton=findViewById(R.id.imageButton_reduceSensitivity);
         sensitivityPlusButton=findViewById(R.id.imageButton_increaseSensitivity);
         sensitivityInfo=findViewById(R.id.textView_sensitivity);
 
-        GameView myGameView=new GameView(this);
-        gameLayout.addView(myGameView);
+        gameLayout.addView(gameView);
         majsensitivityInfo();
 
         //gestion des evenements
@@ -72,18 +82,34 @@ public class MainActivity extends Activity {
         });
 
 
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        accelerometer = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+        sensorManager.registerListener(this, accelerometer, SensorManager.SENSOR_DELAY_GAME);
+
+
     }
 
+    @Override
+    public void onSensorChanged(SensorEvent sensorEvent) {
+        float x = sensorEvent.values[1];
+        float y = sensorEvent.values[0];
+        float z = sensorEvent.values[2];
+        Point point = gameView.getCirclePosition();
+        point.x += x * 150 * vitesse;
+        point.y += y * 150 * vitesse;
+        gameView.setCirclePosition(point);
+    }
 
-    public int getSensitivity(){
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int i) {
+    }
+
+    public double getsensitivity() {
         return sensitivity;
     }
 
-    public int getsensitivity() {
-        return sensitivity;
-    }
-
-    public void setsensitivity(int sensitivity) {
+    public void setsensitivity(double sensitivity) {
         this.sensitivity = sensitivity;
     }
 
