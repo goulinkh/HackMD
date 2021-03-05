@@ -21,7 +21,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Sensor accelerometer;
     private GameView gameView;
     private double sensitivity;
-  
+
     private LinearLayout buttonsLayout;
     private LinearLayout gameLayout;
     private ImageButton sensitivityPlusButton;
@@ -30,8 +30,8 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        sensitivity=1.0;
-      
+        sensitivity = 1.0;
+
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         int valeur_y = sharedPref.getInt("valeur_y", 0);
@@ -53,12 +53,12 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //récupération des elements de la vue
         gameView = new GameView(this);
-      
-        buttonsLayout=findViewById(R.id.linearLayout_buttons);
-        gameLayout=findViewById(R.id.linearLayout_game);
-        sensitivityMoinsButton=findViewById(R.id.imageButton_reduceSensitivity);
-        sensitivityPlusButton=findViewById(R.id.imageButton_increaseSensitivity);
-        sensitivityInfo=findViewById(R.id.textView_sensitivity);
+
+        buttonsLayout = findViewById(R.id.linearLayout_buttons);
+        gameLayout = findViewById(R.id.linearLayout_game);
+        sensitivityMoinsButton = findViewById(R.id.imageButton_reduceSensitivity);
+        sensitivityPlusButton = findViewById(R.id.imageButton_increaseSensitivity);
+        sensitivityInfo = findViewById(R.id.textView_sensitivity);
 
         gameLayout.addView(gameView);
         majsensitivityInfo();
@@ -66,21 +66,20 @@ public class MainActivity extends Activity implements SensorEventListener {
         //gestion des evenements
         sensitivityPlusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(sensitivity<5){
-                    sensitivity+=1;
+                if (sensitivity < 5) {
+                    sensitivity += 0.5;
                     majsensitivityInfo();
                 }
             }
         });
         sensitivityMoinsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(sensitivity>0){
-                    sensitivity-=1;
+                if (sensitivity > 1) {
+                    sensitivity -= 0.5;
                     majsensitivityInfo();
                 }
             }
         });
-
 
 
         sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
@@ -96,8 +95,8 @@ public class MainActivity extends Activity implements SensorEventListener {
         float y = sensorEvent.values[0];
         float z = sensorEvent.values[2];
         Point point = gameView.getCirclePosition();
-        point.x += x * 150 * vitesse;
-        point.y += y * 150 * vitesse;
+        point.x += x * 150 * sensitivity;
+        point.y += y * 150 * sensitivity;
         gameView.setCirclePosition(point);
     }
 
@@ -113,7 +112,7 @@ public class MainActivity extends Activity implements SensorEventListener {
         this.sensitivity = sensitivity;
     }
 
-    public void majsensitivityInfo(){
+    public void majsensitivityInfo() {
         sensitivityInfo.setText(String.valueOf(sensitivity));
     }
 
