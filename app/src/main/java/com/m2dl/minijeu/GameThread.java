@@ -22,7 +22,6 @@ public class GameThread extends Thread {
         this.gameView = gameView;
     }
 
-    @RequiresApi(api = Build.VERSION_CODES.R)
     @Override
     public void run(){
         while(running) {
@@ -33,8 +32,7 @@ public class GameThread extends Thread {
             }
             try {
                 canvas = this.surfaceHolder.lockCanvas();
-                synchronized (surfaceHolder) {
-                    this.gameView.update();
+                synchronized (surfaceHolder) {;
                     this.gameView.draw(canvas);
                 }
             } catch (Exception e) {
