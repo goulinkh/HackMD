@@ -1,8 +1,5 @@
 package com.m2dl.minijeu;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.SharedPreferences;
@@ -17,15 +14,15 @@ import android.widget.TextView;
 public class MainActivity extends Activity {
     private LinearLayout buttonsLayout;
     private LinearLayout gameLayout;
-    private ImageButton sensibilityPlusButton;
-    private ImageButton sensibilityMoinsButton;
-    private TextView sensibilityInfo;
-    private int sensibility;
+    private ImageButton sensitivityPlusButton;
+    private ImageButton sensitivityMoinsButton;
+    private TextView sensitivityInfo;
+    private int sensitivity;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-        sensibility=0;
+        sensitivity=0;
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
 
         int valeur_y = sharedPref.getInt("valeur_y", 0);
@@ -48,28 +45,28 @@ public class MainActivity extends Activity {
         //récupération des elements de la vue
         buttonsLayout=findViewById(R.id.linearLayout_buttons);
         gameLayout=findViewById(R.id.linearLayout_game);
-        sensibilityMoinsButton=findViewById(R.id.imageButton_reduceSensibility);
-        sensibilityPlusButton=findViewById(R.id.imageButton_increaseSensibility);
-        sensibilityInfo=findViewById(R.id.textView_sensibility);
+        sensitivityMoinsButton=findViewById(R.id.imageButton_reduceSensitivity);
+        sensitivityPlusButton=findViewById(R.id.imageButton_increaseSensitivity);
+        sensitivityInfo=findViewById(R.id.textView_sensitivity);
 
         GameView myGameView=new GameView(this);
         gameLayout.addView(myGameView);
-        majSensibilityInfo();
+        majsensitivityInfo();
 
         //gestion des evenements
-        sensibilityPlusButton.setOnClickListener(new View.OnClickListener() {
+        sensitivityPlusButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(sensibility<5){
-                    sensibility+=1;
-                    majSensibilityInfo();
+                if(sensitivity<5){
+                    sensitivity+=1;
+                    majsensitivityInfo();
                 }
             }
         });
-        sensibilityMoinsButton.setOnClickListener(new View.OnClickListener() {
+        sensitivityMoinsButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                if(sensibility>0){
-                    sensibility-=1;
-                    majSensibilityInfo();
+                if(sensitivity>0){
+                    sensitivity-=1;
+                    majsensitivityInfo();
                 }
             }
         });
@@ -77,16 +74,21 @@ public class MainActivity extends Activity {
 
     }
 
-    public int getSensibility() {
-        return sensibility;
+
+    public int getSensitivity(){
+        return sensitivity;
     }
 
-    public void setSensibility(int sensibility) {
-        this.sensibility = sensibility;
+    public int getsensitivity() {
+        return sensitivity;
     }
 
-    public void majSensibilityInfo(){
-        sensibilityInfo.setText(String.valueOf(sensibility));
+    public void setsensitivity(int sensitivity) {
+        this.sensitivity = sensitivity;
+    }
+
+    public void majsensitivityInfo(){
+        sensitivityInfo.setText(String.valueOf(sensitivity));
     }
 
 
