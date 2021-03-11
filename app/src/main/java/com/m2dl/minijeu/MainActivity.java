@@ -2,6 +2,7 @@ package com.m2dl.minijeu;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Point;
 import android.hardware.Sensor;
@@ -127,5 +128,10 @@ public class MainActivity extends Activity implements SensorEventListener {
 
     public float getLightValue() {
         return lightValue;
+    }
+
+    public void goToGameOver(){
+        Intent myIntent = new Intent(this, GameOverActivity.class);
+        startActivity(myIntent);
     }
 }
