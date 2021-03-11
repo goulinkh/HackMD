@@ -14,5 +14,5 @@
 
 - [ ] (2pt) détecter la collision entre la balle et le bord de l'écran et dire "Game over" (Goulin, Rémi)
 - [ ] (2pt) Afficher la table de scores lors du démarrage et un bouton "Start" (pas de base de données) (Imed)
-- [ ] (2pt) Créer une activité pour la page Game Over avec un bouton "Retry" (Ludovic)
+- [x] (2pt) Créer une activité pour la page Game Over avec un bouton "Retry" (Ludovic)
 - [ ] (pt) Envoyer le score vers la activité Game over (plutard)
