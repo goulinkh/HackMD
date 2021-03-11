@@ -16,6 +16,8 @@ import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import java.util.Date;
+
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
     private Sensor light;
@@ -30,6 +32,9 @@ public class MainActivity extends Activity implements SensorEventListener {
     private ImageButton sensitivityPlusButton;
     private ImageButton sensitivityMoinsButton;
     private TextView sensitivityInfo;
+    private Date startDate;
+    private Integer gameViewHeight;
+    private Integer gameViewWidth;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +62,6 @@ public class MainActivity extends Activity implements SensorEventListener {
 
         //récupération des elements de la vue
         gameView = new GameView(this);
-
         buttonsLayout = findViewById(R.id.linearLayout_buttons);
         gameLayout = findViewById(R.id.linearLayout_game);
         sensitivityMoinsButton = findViewById(R.id.imageButton_reduceSensitivity);
@@ -91,7 +95,14 @@ public class MainActivity extends Activity implements SensorEventListener {
         sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_FASTEST);
         gameRotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
         sensorManager.registerListener(this, gameRotationVector, SensorManager.SENSOR_DELAY_GAME);
-
+        startDate = new Date();
+        gameView.post(new Runnable() {
+            @Override
+            public void run() {
+                gameViewWidth = Integer.valueOf(gameView.getWidth());
+                gameViewHeight = Integer.valueOf(gameView.getHeight());
+            }
+        });
     }
 
     @Override
@@ -101,11 +112,23 @@ public class MainActivity extends Activity implements SensorEventListener {
         } else if (sensorEvent.sensor.equals(gameRotationVector)) {
             float x = sensorEvent.values[1];
             float y = sensorEvent.values[0];
-            float z = sensorEvent.values[2];
             Point point = gameView.getCirclePosition();
             point.x += x * 150 * sensitivity;
             point.y += y * 150 * sensitivity;
             gameView.setCirclePosition(point);
+            if (!(gameViewHeight == null || gameViewWidth == null)) {
+                checkGameOver(point.x, point.y);
+            }
+        }
+    }
+
+    private void checkGameOver(float x, float y) {
+        float rayonBalle = 100;
+        if ((gameViewWidth < (rayonBalle + x) || (x - rayonBalle) < 0) ||
+                (gameViewHeight < (rayonBalle + y) || (y - rayonBalle) < 0)) {
+            // TODO: aller a l'activité Game Over avec le score
+            System.out.println("le jeu est terminé et le score est : " +
+                    (new Date().getTime() - startDate.getTime()) / 1000);
         }
     }
 
