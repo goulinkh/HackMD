@@ -83,7 +83,7 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             int blue = Color.blue(rgb);
             paint.setColor(Color.rgb(red, green, blue));
             canvas.drawCircle(circlePosition.x, circlePosition.y, 100, paint);
-            goToGameOver();
+            //goToGameOver();
         }
     }
 
