@@ -1,3 +1,13 @@
 <resources>
     <string name="app_name">MiniJeu</string>
+    <string name="start">Start</string>
+    <string name="textview">TextView</string>
+    <string name="quit">Quit</string>
+    <string name="main_menu">Main Menu</string>
+    <string name="score_4">Score 4</string>
+    <string name="score_3">Score 3</string>
+    <string name="score_5">Score 5</string>
+    <string name="score_2">Score 2</string>
+    <string name="score_1">Score 1</string>
+    <string name="high_scores">High Scores</string>
 </resources>
