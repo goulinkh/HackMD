@@ -21,8 +21,8 @@ import java.util.Date;
 
 public class MainActivity extends Activity implements SensorEventListener {
     private SensorManager sensorManager;
-    private Sensor light;
-    private Sensor gameRotationVector;
+    private Sensor lightSensor;
+    private Sensor gameRotationVectorSensor;
     private GameView gameView;
     private double sensitivity;
 
@@ -36,6 +36,8 @@ public class MainActivity extends Activity implements SensorEventListener {
     private Date startDate;
     private Integer gameViewHeight;
     private Integer gameViewWidth;
+    private boolean gameOver;
+    private boolean isLinkedToSensors;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,12 +92,10 @@ public class MainActivity extends Activity implements SensorEventListener {
             }
         });
 
+        gameOver = false;
+        isLinkedToSensors = false;
+        setUpSensors();
 
-        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
-        light = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
-        sensorManager.registerListener(this, light, SensorManager.SENSOR_DELAY_FASTEST);
-        gameRotationVector = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
-        sensorManager.registerListener(this, gameRotationVector, SensorManager.SENSOR_DELAY_GAME);
         startDate = new Date();
         gameView.post(new Runnable() {
             @Override
@@ -106,11 +106,25 @@ public class MainActivity extends Activity implements SensorEventListener {
         });
     }
 
+    private void setUpSensors() {
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        lightSensor = sensorManager.getDefaultSensor(Sensor.TYPE_LIGHT);
+        gameRotationVectorSensor = sensorManager.getDefaultSensor(Sensor.TYPE_GAME_ROTATION_VECTOR);
+
+        if (!isLinkedToSensors) listenToSensors();
+    }
+
+    private void listenToSensors() {
+        sensorManager.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, gameRotationVectorSensor, SensorManager.SENSOR_DELAY_GAME);
+        this.isLinkedToSensors = true;
+    }
+
     @Override
     public void onSensorChanged(SensorEvent sensorEvent) {
-        if (sensorEvent.sensor.equals(light)) {
+        if (sensorEvent.sensor.equals(lightSensor)) {
             lightValue = sensorEvent.values[0];
-        } else if (sensorEvent.sensor.equals(gameRotationVector)) {
+        } else if (sensorEvent.sensor.equals(gameRotationVectorSensor)) {
             float x = sensorEvent.values[1];
             float y = sensorEvent.values[0];
             Point point = gameView.getCirclePosition();
@@ -127,7 +141,13 @@ public class MainActivity extends Activity implements SensorEventListener {
         float rayonBalle = 100;
         if ((gameViewWidth < (rayonBalle + x) || (x - rayonBalle) < 0) ||
                 (gameViewHeight < (rayonBalle + y) || (y - rayonBalle) < 0)) {
-            // TODO: aller a l'activité Game Over avec le score
+            // TODO: aller a l'activité Game Over avec le
+            long score = (new Date().getTime() - startDate.getTime()) / 1000;
+            if (!gameOver) {
+                gameOver = true;
+                goToGameOver(score);
+            }
+
             System.out.println("le jeu est terminé et le score est : " +
                     (new Date().getTime() - startDate.getTime()) / 1000);
         }
@@ -137,24 +157,38 @@ public class MainActivity extends Activity implements SensorEventListener {
     public void onAccuracyChanged(Sensor sensor, int i) {
     }
 
+    @Override()
+    public void onPause() {
+        super.onPause();
+        stopSensorsListenners();
+    }
+
+    private void stopSensorsListenners() {
+        this.isLinkedToSensors = false;
+        sensorManager.unregisterListener(this, lightSensor);
+        sensorManager.unregisterListener(this, gameRotationVectorSensor);
+    }
+
+    @Override()
+    public void onResume() {
+        super.onResume();
+        if (isLinkedToSensors) setUpSensors();
+    }
+
     public void majsensitivityInfo() {
         sensitivityInfo.setText(String.valueOf(sensitivity));
-    }
-
-    public double getsensitivity() {
-        return sensitivity;
-    }
-
-    public void setsensitivity(double sensitivity) {
-        this.sensitivity = sensitivity;
     }
 
     public float getLightValue() {
         return lightValue;
     }
 
-    public void goToGameOver(){
-        Intent myIntent = new Intent(this, GameOverActivity.class);
+    public void goToGameOver(long score) {
+        Intent myIntent = new Intent(MainActivity.this, GameOverActivity.class);
+        this.gameView.getThread().setRunning(false);
+        this.gameView.getThread().interrupt();
+        myIntent.putExtra("score", Long.valueOf(score).toString());
+        myIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(myIntent);
     }
 }

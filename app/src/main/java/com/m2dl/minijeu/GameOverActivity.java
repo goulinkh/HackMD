@@ -17,13 +17,15 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 public class GameOverActivity extends AppCompatActivity {
     private LayoutInflater mInflater;
     private ImageButton retryButton;
+    private String sessionScore;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         SharedPreferences sharedPref = this.getPreferences(Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPref.edit();
-
+        sessionScore = getIntent().getStringExtra("score");
 
         setContentView(R.layout.activity_gameover);
 
@@ -32,7 +34,7 @@ public class GameOverActivity extends AppCompatActivity {
         mInflater = LayoutInflater.from(this);
         View bestScore = mInflater.inflate(R.layout.score_item , null, false);
         TextView score=bestScore.findViewById(R.id.score_item_value);
-        score.setText("67952");
+        score.setText(sessionScore);
         scoreLayout.addView(bestScore);
 
         View secondbestScore = mInflater.inflate(R.layout.score_item , null, false);

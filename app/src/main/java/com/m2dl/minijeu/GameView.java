@@ -38,6 +38,10 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
 
     }
 
+    public GameThread getThread() {
+        return thread;
+    }
+
     @Override
     public void surfaceCreated(@NonNull SurfaceHolder holder) {
         thread = new GameThread(getHolder(), this);
@@ -83,7 +87,6 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
             int blue = Color.blue(rgb);
             paint.setColor(Color.rgb(red, green, blue));
             canvas.drawCircle(circlePosition.x, circlePosition.y, 100, paint);
-            //goToGameOver();
         }
     }
 
@@ -95,8 +98,4 @@ public class GameView extends SurfaceView implements SurfaceHolder.Callback {
         this.circlePosition = circlePosition;
     }
 
-    public void goToGameOver(){
-        thread.setRunning(false);
-        context.goToGameOver();
-    }
 }
