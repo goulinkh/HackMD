@@ -12,7 +12,7 @@
 - [x] (5pt) La position du cercle evouluera en fonction de l'inclinaison de l'appareil (Rémi & Goulin):
     [youtube](https://www.youtube.com/watch?v=pkT7DU1Yo9Q)
 
-- [ ] (2pt) détecter la collision entre la balle et le bord de l'écran et dire "Game over" (Goulin, Rémi)
+- [x] (2pt) détecter la collision entre la balle et le bord de l'écran (Goulin, Rémi)
 - [ ] (2pt) Afficher la table de scores lors du démarrage et un bouton "Start" (pas de base de données) (Imed)
 - [x] (2pt) Créer une activité pour la page Game Over avec un bouton "Retry" (Ludovic)
 - [ ] (pt) Envoyer le score vers la activité Game over (plutard)
