@@ -38,10 +38,6 @@ public class GameOverActivity extends AppCompatActivity {
         score.setText(sessionScore);
         scoreLayout.addView(bestScore);
 
-        View secondbestScore = mInflater.inflate(R.layout.score_item , null, false);
-        TextView secondscore=secondbestScore.findViewById(R.id.score_item_value);
-        secondscore.setText("42965");
-        scoreLayout.addView(secondbestScore);
 
 
         retryButton=findViewById(R.id.retry_imageButton);

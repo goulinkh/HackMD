@@ -6,14 +6,30 @@ import java.util.Date;
 
 @IgnoreExtraProperties
 public class Score {
-    int score;
-    Date date;
+    public int score;
+    public Date date;
 
     public Score() {
     }
 
     public Score(int score) {
         this.score = score;
+        this.date = new Date();
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
+
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
         this.date = new Date();
     }
 }

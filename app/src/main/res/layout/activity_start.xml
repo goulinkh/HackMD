@@ -24,11 +24,13 @@
             android:textSize="35sp" />
 
         <TableLayout
-            android:layout_marginTop="60sp"
+            android:id="@+id/tableScores"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
+            android:layout_marginTop="60sp"
             android:layout_marginBottom="100sp">
+
             <TableRow
 
                 android:layout_width="match_parent"
@@ -43,77 +45,8 @@
 
 
             </TableRow>
-            <TableRow
-                android:layout_marginTop="40sp"
-                android:gravity="center"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
 
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/firstScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/score_1"
-                    android:textSize="25sp" />
-            </TableRow>
 
-            <TableRow
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/secondScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/score_2"
-                    android:textSize="25sp" />
-            </TableRow>
-
-            <TableRow
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/thirdScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/score_3"
-                    android:textSize="25sp" />
-            </TableRow>
-
-            <TableRow
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent">
-
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/fourthScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/score_4"
-                    android:textSize="25sp" />
-
-            </TableRow>
-
-            <TableRow
-                android:gravity="center"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent" >
-
-                <TextView
-                    android:gravity="center"
-                    android:id="@+id/fifthScore"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:text="@string/score_5"
-                    android:textSize="25sp" />
-            </TableRow>
 
         </TableLayout>
 
