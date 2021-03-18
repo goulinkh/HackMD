@@ -172,7 +172,7 @@ public class MainActivity extends Activity implements SensorEventListener {
     @Override()
     public void onResume() {
         super.onResume();
-        if (isLinkedToSensors) setUpSensors();
+        if (!isLinkedToSensors) listenToSensors();
     }
 
     public void majsensitivityInfo() {

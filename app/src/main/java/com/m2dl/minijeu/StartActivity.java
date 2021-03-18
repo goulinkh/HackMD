@@ -31,6 +31,8 @@ public class StartActivity extends AppCompatActivity {
                 System.exit(0);
             }
         });
+
+        
     }
 
 }
