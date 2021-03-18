@@ -65,11 +65,6 @@ public class StartActivity extends AppCompatActivity {
 
         scoresTable = findViewById(R.id.tableScores);
 
-
-
-        DatabaseReference myDb = FirebaseDatabase.getInstance().getReference();
-        Score score = new Score(1);
-        String scoreId = UUID.randomUUID().toString();
         StartActivity _this = this;
         firebaseService.getMyDb().child("scores").get().addOnCompleteListener(new OnCompleteListener<DataSnapshot>() {
             @Override
@@ -83,7 +78,7 @@ public class StartActivity extends AppCompatActivity {
 
                 System.out.println(listScores.get(0).getScore());
 
-                listScores.sort(Comparator.comparing(Score::getScore));
+                listScores.sort(Comparator.comparing(Score::getScore).reversed());
 
                 //Collections.sort(listScores,(score1, t1) -> score1.getScore() - t1.getScore());
                 System.out.println(listScores);

@@ -15,6 +15,8 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.constraintlayout.widget.ConstraintLayout;
 
+import com.m2dl.minijeu.models.Score;
+
 public class GameOverActivity extends AppCompatActivity {
     private LayoutInflater mInflater;
     private ImageButton retryButton;
@@ -28,15 +30,20 @@ public class GameOverActivity extends AppCompatActivity {
         SharedPreferences.Editor editor = sharedPref.edit();
         sessionScore = getIntent().getStringExtra("score");
 
+        // Stocker le score dans firebase
+        FirebaseService firebaseService = new FirebaseService() ;
+        firebaseService.writeNewScore(new Score(Integer.parseInt(sessionScore)));
+
+        // afficher l'interface
         setContentView(R.layout.activity_gameover);
 
         //Gestion des scores [En dur pour tester]
         LinearLayout scoreLayout=findViewById(R.id.five_global_best_score_layout);
         mInflater = LayoutInflater.from(this);
-        View bestScore = mInflater.inflate(R.layout.score_item , null, false);
-        TextView score=bestScore.findViewById(R.id.score_item_value);
+        View scoreView = mInflater.inflate(R.layout.score_item , null, false);
+        TextView score=scoreView.findViewById(R.id.score_item_value);
         score.setText(sessionScore);
-        scoreLayout.addView(bestScore);
+        scoreLayout.addView(scoreView);
 
 
 
