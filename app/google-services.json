@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "121532032610",
+    "firebase_url": "https://hackmd-8ac72-default-rtdb.europe-west1.firebasedatabase.app",
+    "project_id": "hackmd-8ac72",
+    "storage_bucket": "hackmd-8ac72.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:121532032610:android:53eca4af35ef7f417bd33b",
+        "android_client_info": {
+          "package_name": "com.m2dl.minijeu"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "121532032610-pkrfmutjkj485re9654vrgtlt9qjkvrm.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBlU92oX6L77EAGMQ4iSzTmm0o-L4oBr34"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "121532032610-pkrfmutjkj485re9654vrgtlt9qjkvrm.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
