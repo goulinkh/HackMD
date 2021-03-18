@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,6 +48,15 @@ public class GameOverActivity extends AppCompatActivity {
         retryButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                runGame();
+            }
+        });
+
+        Button btn =findViewById(R.id.button);
+        GameOverActivity t = this;
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(t, StartActivity.class);
+                startActivity(myIntent);
             }
         });
 

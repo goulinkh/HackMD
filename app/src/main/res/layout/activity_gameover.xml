@@ -18,8 +18,8 @@
 
     <LinearLayout
         android:id="@+id/five_global_best_score_layout"
-        android:layout_width="250dp"
-        android:layout_height="200dp"
+        android:layout_width="568dp"
+        android:layout_height="309dp"
         android:layout_marginTop="24dp"
         android:background="#F3F4C2"
         android:orientation="vertical"
@@ -27,14 +27,52 @@
         app:layout_constraintStart_toStartOf="@+id/imageView"
         app:layout_constraintTop_toBottomOf="@+id/imageView"></LinearLayout>
 
-    <ImageButton
-        android:id="@+id/retry_imageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginBottom="32dp"
-        android:background="#00FFFFFF"
+    <LinearLayout
+        android:id="@+id/linearLayout"
+        android:layout_width="0dp"
+        android:layout_height="93dp"
+        android:layout_marginBottom="20dp"
+        android:gravity="center_horizontal"
+        android:orientation="horizontal"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/five_global_best_score_layout"
-        app:layout_constraintStart_toStartOf="@+id/five_global_best_score_layout"
-        app:srcCompat="@drawable/retry" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <ImageButton
+            android:id="@+id/retry_imageButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:background="#00FFFFFF"
+            app:srcCompat="@drawable/retry" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+        <Button
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:height="75dp"
+            android:shadowColor="#000000"
+            android:shadowDx="0"
+            android:shadowDy="3"
+            android:text="Go to home"
+            app:cornerRadius="100dp" />
+
+        <Space
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1" />
+
+    </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
